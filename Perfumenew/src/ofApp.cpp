@@ -212,6 +212,7 @@ void ofApp::draw(){
         ofSetLineWidth(3);
         for (int i = 0; i < 3600; i = i + 2) {
             ofSetColor(ofColor::fromHsb(255*pow(sin((float) ofGetElapsedTimeMillis()/1000+((float)i*PI/600)),2),255,255));
+            //ofDrawLine(0, sin(i*PI/180)*300, -(i/3) , 0, sin(i*PI/180)*300, -(i/3)-30 );
             ofDrawLine(cos((float)i*PI/180)*300, sin((float)i*PI/180)*300,-(i/3) , cos ((float)i*PI/180)*300, sin((float)i*PI/180)*300,-(i/3)-30 );
         }
         ofPopMatrix();

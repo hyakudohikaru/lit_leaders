@@ -22,17 +22,28 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    int mousepoint;
-    double dis = std::sqrt((mouseX-(ofGetWidth()/2))*(mouseX-(ofGetWidth()/2))+(mouseY-(ofGetHeight()/2))*(mouseY-(ofGetHeight()/2)));
+    int centerX = ofGetWidth()/2;
+    int centerY = ofGetHeight()/2;
+    double dis = std::sqrt((mouseX-(centerX))*(mouseX-(centerX))+(mouseY-(centerY))*(mouseY-(centerY)));
     
-    double radian = std::atan2(mouseY-(ofGetHeight()/2),mouseX-(ofGetWidth()/2));
+    double radian = std::atan2(mouseY-(centerY),mouseX-(centerX));
     double deg =radian * 180.0/PI;
     double degr = deg + 360;
+    double dis2 = dis-(dis*cos(PI/180));
+    double dis3 = dis*sin(PI/180);
+    
+    
     int font = 0;
+    int time;
     
     ofTrueTypeFont frabk;
+
     
-    int Try[360];
+    
+    
+    
+    
+    
    
 		
 };

@@ -6,8 +6,9 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofBackground(255);
-    
+    ofSetFrameRate(60);
     ofSetCircleResolution(60);
+    ofSetVerticalSync(true);
     
     
     frabk.load("frabk.ttf", 10);
@@ -20,7 +21,6 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    
     
 
 }
@@ -41,7 +41,7 @@ void ofApp::draw(){
     
     //マウスの線
     ofPushStyle();
-    ofSetLineWidth(4);
+    ofSetLineWidth(3);
     ofSetColor(100, 100, 100);
     ofDrawLine(0, mouseY, ofGetWidth(), mouseY);
     ofDrawLine(mouseX, 0, mouseX, ofGetHeight());
@@ -49,21 +49,22 @@ void ofApp::draw(){
   
     ofPushMatrix();
     ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
-    double dis = std::sqrt((mouseX-(ofGetWidth()/2))*(mouseX-(ofGetWidth()/2))+(mouseY-(ofGetHeight()/2))*(mouseY-(ofGetHeight()/2)));
+    double dis = std::sqrt((mouseX-(centerX))*(mouseX-(centerX))+(mouseY-(centerY))*(mouseY-(centerY)));
     
-    double radian = std::atan2(mouseY-(ofGetHeight()/2),mouseX-(ofGetWidth()/2));
+    double radian = std::atan2(mouseY-(centerY),mouseX-(centerX));
     double deg =radian * 180.0/PI;
+    
     
     //円の色
     if (deg>0) {
         cout << deg << endl;
         ofSetColor(ofColor::fromHsb(255.0/360.0*(360-deg), 255, 255));
-    }else if (deg <0){
+    }else if (deg <=0){
         deg = deg +360;
-        cout << degr << endl;
-        ofSetColor(ofColor::fromHsb(255.0/360.0*(360-degr), 255, 255));
+        cout << deg << endl;
+        ofSetColor(ofColor::fromHsb(255.0/360.0*(360-deg), 255, 255));
     }
-    
+   
     //外の円
     ofNoFill();
     ofDrawCircle(0, 0, dis);
@@ -77,18 +78,32 @@ void ofApp::draw(){
     
     //マウスの位置の中心からの線
     ofDrawLine(ofGetWidth()/2, ofGetHeight()/2, mouseX, mouseY);
-    
+
     //シフト押した時の動き
     switch (font) {
         case 1:
             ofSetColor(100, 100, 100);
             frabk.drawString("radius:"+ofToString(dis), mouseX+5, mouseY+15);
             frabk.drawString("angle:"+ofToString(360.0-deg), mouseX+5, mouseY+30);
+            ofSetColor(100, 100, 100, 150);
+            for (int i = deg; i<360; i++) {
+                ofDrawTriangle(centerX, centerY, centerX+(dis*cos(i*PI/180)), centerY+(dis*sin(i*PI/180)), centerX+(dis*cos((i+1)*PI/180)), centerY+(dis*sin((i+1)*PI/180)));
+            }
+            if (ofGetElapsedTimeMillis()/10%2 ==0) {
+                //dis = dis +5;
+                mouseX = mouseX +2;
+                mouseY = mouseY+2;
+            }else if (ofGetElapsedTimeMillis()/10%2 ==1){
+                //dis = dis -5;
+                mouseX = mouseX -2;
+                mouseY = mouseY -2;
+            }
             break;
-            
         default:
             break;
     }
+    
+    
     
     
 }
@@ -97,6 +112,8 @@ void ofApp::draw(){
 void ofApp::keyPressed(int key){
     if (key ==' ') {
         font = (font+1)%2;
+        time = ofGetElapsedTimeMillis()/10%2;
+        
     }
 }
 
