@@ -30,9 +30,9 @@ void ofApp::draw(){
 void ofApp::variable(){
     radian =100;
     Center = ofVec2f(ofGetWidth()/2,ofGetHeight()/2);
-    circleCenter = ofVec2f(Center.x,-100);
-    speed = 1;
-    accele = 1;
+    circleCenter = ofVec2f(Center.x,100);
+    speed = 0.5;
+    accele = 0.5;
 }
 
 //円------------------------------------------------------------
